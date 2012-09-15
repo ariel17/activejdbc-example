@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="JavaExecutorFrameworkExample" default="build" basedir=".">
+	<description>
+		Executor Framework Example in Java
+    </description>
+
+	<!-- build folders and files -->
+    <property name="build.dir" value="./build" />
+	<property name="build.bin.dir" value="${build.dir}/bin" />
+	<property name="build.doc.dir" value="${build.dir}/doc" />
+	<property name="src.dir" value="./src" />
+    <property name="lib.dir" value="./lib" />
+    <property name="resource.dir" value="${src.dir}/main/resources" />
+	<property name="eclipse.bin.dir" value="./bin" />
+
+	<!-- class path -->
+	<path id="classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+    </path>
+
+    <!-- Showing help text -->
+    <target name="help" description="show available commands" >
+        <exec executable="ant" dir="." failonerror="true">
+            <arg value="-p"/>
+        </exec>
+    </target>
+
+	<!-- Target CLEAN - Clean the build folders and compiled files -->
+	<target name="clean" description="Clean the build folders and compiled files.">
+        <delete dir="${build.dir}" />
+        <delete dir="${eclipse.bin.dir}" />
+	</target>
+
+    <!-- Target INIT - Initializes the project structure. -->
+	<target name="init" description="Initializes the project structure.">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.bin.dir}" />
+		<mkdir dir="${build.doc.dir}" />
+	</target>
+
+	<!-- Target COMPILE - Compile the java classes -->
+	<target name="compile" depends="init" description="Compile source code.">
+		<javac srcdir="${src.dir}" destdir="${build.bin.dir}" debug="on" encoding="ISO-8859-1" includeantruntime="false">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+    <!-- Target PREPARE - Do necesary tasks before production release -->
+    <target name="prepare" depends="init" description="Do necesary tasks before production release.">
+
+        <echo message="Copying resource files from ${resource.dir}" />
+        <copy todir="${build.bin.dir}">
+            <fileset dir="${resource.dir}" />
+    	</copy>
+    </target>
+
+    <!-- Target PREPARE - Do necesary tasks before production release -->
+    <target name="build" depends="compile" description="Generates the project artifact.">
+        <antcall target="prepare" />
+    </target>
+
+</project>

@@ -1,6 +1,14 @@
+# Artifact files #
 *.class
+build
+bin
 
-# Package Files #
+# Package files #
 *.jar
-*.war
 *.ear
+
+# Application log files
+*.log
+
+# Editing files #
+.*.sw*
