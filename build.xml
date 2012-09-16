@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="activejdbc-example" default="build" basedir=".">
+<project name="activejdbc-example" default="help" basedir=".">
 	<description>
 		activejdbc-example
     </description>
@@ -45,18 +45,33 @@
 		</javac>
 	</target>
 
-    <!-- Target PREPARE - Do necesary tasks before production release -->
-    <target name="prepare" depends="init" description="Do necesary tasks before production release.">
-
+    <!-- Target PREPARE - Do necesary tasks before release -->
+    <target name="prepare" depends="init" description="Do necesary tasks before release.">
         <echo message="Copying resource files from ${resource.dir}" />
         <copy todir="${build.bin.dir}">
             <fileset dir="${resource.dir}" />
     	</copy>
     </target>
 
-    <!-- Target PREPARE - Do necesary tasks before production release -->
-    <target name="build" depends="compile" description="Generates the project artifact.">
+    <!-- Target PREPARE - Do necesary tasks before release -->
+    <target name="build_development" depends="compile" description="Generates the project artifact in development stage.">
+        <property name="resource.dir" value="${development.resource.dir}" />
         <antcall target="prepare" />
+    </target>
+
+    <target name="execute" description="Executes configured main class.">
+        <echo>Executing main class: ${main.class}</echo>
+        <java classname="${main.class}" fork="true">
+            <classpath>
+                <pathelement path="${build.bin.dir}"/>
+                <fileset dir="${build.bin.dir}">
+                	<include name="**/*" />
+                </fileset>
+                <fileset dir="${lib.dir}">
+                	<include name="**/*.jar" />
+                </fileset>
+            </classpath>
+        </java>
     </target>
 
 </project>
