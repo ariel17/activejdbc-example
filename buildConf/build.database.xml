@@ -4,19 +4,25 @@
   <!-- The following properties need to be changed according to your environment. -->
   <property file="buildConf/build.database.properties" />
 
-  <!-- Databse creation on development stage. -->       
+  <!-- Database creation on development stage. -->       
   <target name="createdb_development" description="Creates the database in development stage.">
       <antcall target="createdb_mysql" />
   </target>
+ 
+  <!-- Tables creation on development stage. -->       
+  <target name="createtables_development" description="Creates the tables in development stage.">
+      <antcall target="createtables_mysql" />
+  </target>
 
-  <!-- Databse creation on development stage. -->       
+  <!-- Database creation on development stage. -->       
   <target name="dropdb_development" description="Drops the database in development stage.">
       <antcall target="dropdb_mysql" />
   </target>
  
-  <!-- mysqladmin is used to create a database. -->
+  <!-- MySQL target for database creation -->
   <target name="createdb_mysql">
     <exec executable="${mysqladmin.bin}">
+      <arg value="--host=${mysql.host}" />
       <arg value="--user=${mysql.auth.username}"/>
       <arg value="--password=${mysql.auth.password}"/>
       <arg value="CREATE"/>
@@ -24,11 +30,23 @@
     </exec>
   </target>
 
-  <!-- drop database for mysql -->
-  <target name="dropdb_mysql">
-    <exec executable="${mysqladmin.bin}">
+  <!-- MySQL target for tables creation -->
+  <target name="createtables_mysql">
+      <exec executable="${mysql.bin}" input="${sql.init.file}">
+      <arg value="--host=${mysql.host}" />
       <arg value="--user=${mysql.auth.username}"/>
       <arg value="--password=${mysql.auth.password}"/>
+      <arg value="${mysql.database.name}"/>
+    </exec>
+  </target>
+
+  <!-- MySQL target for database droping -->
+  <target name="dropdb_mysql">
+    <exec executable="${mysqladmin.bin}">
+      <arg value="--host=${mysql.host}" /> 
+      <arg value="--user=${mysql.auth.username}"/>
+      <arg value="--password=${mysql.auth.password}"/>
+      <arg value="--force" />
       <arg value="DROP"/>
       <arg value="${mysql.database.name}"/>
     </exec>
