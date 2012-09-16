@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="JavaExecutorFrameworkExample" default="build" basedir=".">
 	<description>
-		Executor Framework Example in Java
+		activejdbc-example
     </description>
 
 	<!-- build folders and files -->
-    <property name="build.dir" value="./build" />
-	<property name="build.bin.dir" value="${build.dir}/bin" />
-	<property name="build.doc.dir" value="${build.dir}/doc" />
-	<property name="src.dir" value="./src" />
-    <property name="lib.dir" value="./lib" />
-    <property name="resource.dir" value="${src.dir}/main/resources" />
-	<property name="eclipse.bin.dir" value="./bin" />
+    <property file="./buildConf/build.properties" />
+
+    <!-- database tasks -->
+    <import file="./buildConf/build.database.xml" />
+
 
 	<!-- class path -->
 	<path id="classpath">

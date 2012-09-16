@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project>
+ 
+  <!-- The following properties need to be changed according to your environment. -->
+  <property file="buildConf/build.database.properties" />
+
+  <!-- Databse creation on development stage. -->       
+  <target name="createdb_development" description="Creates the database in development stage.">
+      <antcall target="createdb_mysql" />
+  </target>
+
+  <!-- Databse creation on development stage. -->       
+  <target name="dropdb_development" description="Drops the database in development stage.">
+      <antcall target="dropdb_mysql" />
+  </target>
+ 
+  <!-- mysqladmin is used to create a database. -->
+  <target name="createdb_mysql">
+    <exec executable="${mysqladmin.bin}">
+      <arg value="--user=${mysql.auth.username}"/>
+      <arg value="--password=${mysql.auth.password}"/>
+      <arg value="CREATE"/>
+      <arg value="${mysql.database.name}"/>
+    </exec>
+  </target>
+
+  <!-- drop database for mysql -->
+  <target name="dropdb_mysql">
+    <exec executable="${mysqladmin.bin}">
+      <arg value="--user=${mysql.auth.username}"/>
+      <arg value="--password=${mysql.auth.password}"/>
+      <arg value="DROP"/>
+      <arg value="${mysql.database.name}"/>
+    </exec>
+  </target>
+ 
+</project>
